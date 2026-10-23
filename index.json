@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "repository": "lucaseduardocrp/agent-devkit",
+  "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6",
+  "generatedAt": "2026-10-22T19:25:13-03:00",
+  "categories": {
+    "skills": [
+      {
+        "id": "adk",
+        "icon": "ti-box",
+        "label": {
+          "en-US": "ADK",
+          "pt-BR": "ADK"
+        }
+      },
+      {
+        "id": "test-design",
+        "icon": "ti-list-check",
+        "label": {
+          "en-US": "Test design",
+          "pt-BR": "Desenho de testes"
+        }
+      },
+      {
+        "id": "e2e-automation",
+        "icon": "ti-player-play",
+        "label": {
+          "en-US": "E2E automation",
+          "pt-BR": "Automação E2E"
+        }
+      },
+      {
+        "id": "api-testing",
+        "icon": "ti-api",
+        "label": {
+          "en-US": "API testing",
+          "pt-BR": "Testes de API"
+        }
+      },
+      {
+        "id": "requirements",
+        "icon": "ti-file-text",
+        "label": {
+          "en-US": "Requirements",
+          "pt-BR": "Requisitos"
+        }
+      },
+      {
+        "id": "knowledge",
+        "icon": "ti-brain",
+        "label": {
+          "en-US": "Knowledge",
+          "pt-BR": "Conhecimento"
+        }
+      },
+      {
+        "id": "reporting",
+        "icon": "ti-report",
+        "label": {
+          "en-US": "Reporting",
+          "pt-BR": "Relatórios"
+        }
+      },
+      {
+        "id": "devops",
+        "icon": "ti-git-merge",
+        "label": {
+          "en-US": "DevOps",
+          "pt-BR": "DevOps"
+        }
+      },
+      {
+        "id": "agents",
+        "icon": "ti-robot",
+        "label": {
+          "en-US": "Agents",
+          "pt-BR": "Agentes"
+        }
+      },
+      {
+        "id": "productivity",
+        "icon": "ti-bolt",
+        "label": {
+          "en-US": "Productivity",
+          "pt-BR": "Produtividade"
+        }
+      },
+      {
+        "id": "other",
+        "icon": "ti-dots",
+        "label": {
+          "en-US": "Other",
+          "pt-BR": "Outros"
+        }
+      }
+    ],
+    "plugins": [
+      {
+        "id": "integrations",
+        "icon": "ti-plug-connected",
+        "label": {
+          "en-US": "Integrations",
+          "pt-BR": "Integrações"
+        }
+      },
+      {
+        "id": "test-management",
+        "icon": "ti-checklist",
+        "label": {
+          "en-US": "Test management",
+          "pt-BR": "Gestão de testes"
+        }
+      },
+      {
+        "id": "e2e",
+        "icon": "ti-player-play",
+        "label": {
+          "en-US": "E2E",
+          "pt-BR": "E2E"
+        }
+      },
+      {
+        "id": "knowledge",
+        "icon": "ti-brain",
+        "label": {
+          "en-US": "Knowledge",
+          "pt-BR": "Conhecimento"
+        }
+      },
+      {
+        "id": "agents",
+        "icon": "ti-robot",
+        "label": {
+          "en-US": "Agents",
+          "pt-BR": "Agentes"
+        }
+      },
+      {
+        "id": "devops",
+        "icon": "ti-git-merge",
+        "label": {
+          "en-US": "DevOps",
+          "pt-BR": "DevOps"
+        }
+      },
+      {
+        "id": "general",
+        "icon": "ti-puzzle",
+        "label": {
+          "en-US": "General",
+          "pt-BR": "Geral"
+        }
+      }
+    ]
+  },
+  "skills": [
+    {
+      "name": "adk-agents",
+      "description": "Use when the user wants to create, edit, list, delete or run ADK custom agents (QA, documentation, refactor or custom personas with Markdown instructions), or wants a task done \"as\" one of the workspace agents.",
+      "overview": "Agents are workspace personas: Markdown instructions plus a role (QA, DOCUMENTATION, REFACTOR or CUSTOM). The default agent (isDefault) answers Brain questions in server mode. Agents also shape Test Plans (agentId in testplansprepare) and Specs (specpreparedraft). Every run br…",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 3621,
+          "sha256": "16bae79cb4b8e2fff230f926f84a3687f09a28aecf916157fa6c16eb6a3afbbf"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-agents"
+    },
+    {
+      "name": "adk-brain",
+      "description": "Use when the user asks a question that should be answered from the company knowledge base (ADK Brain), or wants to search, read, create, edit, relate, sync or publish Brain documents (Azure DevOps Wiki or GitHub pages).",
+      "overview": "Server mode: brainask { question } uses the workspace default agent and LLM.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 1796,
+          "sha256": "5ca2b1a9bfbb2ccdfeb3250a951d86a486d3a61f9b88b2881ea185dbaccaef52"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-brain"
+    },
+    {
+      "name": "adk-design",
+      "description": "Use when the user wants an HTML/CSS/JS prototype, a UI mockup or a Design System in ADK Design, or wants to iterate on, list or delete prototypes stored in the GitHub or Azure repository.",
+      "overview": "Prototypes and Design Systems are stored in a Git repository (provider: github or azure). Start with designlistproviders. If it is empty, the workspace must configure a GitHub Projects or Azure DevOps integration with a repository (skill adk-workspace-admin).",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 1837,
+          "sha256": "e8513105586780edf4c16335d59c6d0de577c26d594f957955983512e6618f3e"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-design"
+    },
+    {
+      "name": "adk-e2e",
+      "description": "Use when the user wants ADK to write, run, rerun, fix or manage automated end-to-end (Playwright) tests of a web application or API, check why an E2E test failed, edit an E2E script, or share the recorded test video.",
+      "overview": "ADK commits Playwright scripts to a GitHub or Azure DevOps repository, runs each test in a browser on the ADK worker and records a video. Execution is asynchronous: tools return immediately and the run progresses on its own.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 10464,
+          "sha256": "07993b3120798585282cf28449d03ca9cc17a7d646f53822410c3396341f661c"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-e2e"
+    },
+    {
+      "name": "adk-getting-started",
+      "description": "Use when the user mentions ADK or asks to use ADK features (Brain, Specs, Test Plans, Agents, Design, workspaces) through the adk MCP server, or when an ADK tool fails with an authentication or workspace error.",
+      "overview": "The adk MCP server exposes every ADK capability as tools. Clients prefix them, for example mcpadk<tool> in Claude Code; the names below are the bare tool names.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2796,
+          "sha256": "768bfccf93b62c64eb6da96e6eabf202b8b01308d88c552b203f2987e9b30ac3"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-getting-started"
+    },
+    {
+      "name": "adk-release-notes",
+      "description": "Use when the user wants to write, generate, edit, delete, export or review the history of release notes in ADK from delivered PBIs, tasks, bugs or cards (for example \"write the release notes for Sprint 191\").",
+      "overview": "ADK keeps release notes in Product → Release Notes. A release note is Markdown with a title, an optional version and the IDs of the work items it covers. Every create, edit and delete is audited.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2211,
+          "sha256": "10ea2cbcde75670371d7f3bf752ebeac25cba48e3c7ce6452efd3181cf0f92a3"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-release-notes"
+    },
+    {
+      "name": "adk-specs",
+      "description": "Use when the user wants to write, review, improve, export or publish a specification (spec, PRD, requirements document) in ADK, manage spec templates, or turn a Brain document into a spec.",
+      "overview": "Specs follow a template: ordered sections with guidance. Each spec section is identified by its templateSectionId.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2369,
+          "sha256": "a8210e70162989afe7feec76ec69b2f03827f36b4002f54ebe8ddde00de63229"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-specs"
+    },
+    {
+      "name": "adk-test-plans",
+      "description": "Use when the user wants test cases, a test plan, QA coverage or an Azure DevOps test CSV from a requirement, user story, bug, Brain document or ADK spec, wants to bring Test Plans, suites or cases that already exist in Azure DevOps, TestRail or Xray into ADK, or wants to organize saved Test Plans and suites in ADK.",
+      "overview": "For CSV without saving a Test Plan, write the cases after testplansprepare and call testplansrendercsv { plans, platformProvider?, areaPath?, assignedTo? }.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 6452,
+          "sha256": "1cb562d583846f71fe05c376019aded84bbae1b2e3c837719dd8d4cd3afcb765"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-test-plans"
+    },
+    {
+      "name": "adk-workspace-admin",
+      "description": "Use when the user wants to manage ADK workspaces, members, roles and permissions, configure or test integrations (Azure DevOps Wiki, GitHub Projects, Wiki.js, LLM providers), or review the audit history.",
+      "overview": "audithistory { entityType: document | specification | template | testplan, entityId?, page? }.",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 1620,
+          "sha256": "d62bbe2192c0e3d9d5499f344143c76019bf741c49c1851cb07bc3d108c76d50"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-workspace-admin"
+    },
+    {
+      "name": "api-contract-checks",
+      "description": "Use when the user wants test scenarios or automated checks for a REST API from an OpenAPI document, a route list or example requests, including status codes, schemas, authentication, pagination and idempotency.",
+      "overview": "Design API tests that catch the breaking changes and security gaps unit tests miss.",
+      "category": "api-testing",
+      "tags": [
+        "api",
+        "openapi",
+        "rest",
+        "contract"
+      ],
+      "toolsets": [
+        "testplans",
+        "e2e"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2399,
+          "sha256": "8e447862dfb8a9cd58faf9e7dd825a657d02b83bb989513be50cb5cebf2eb3b6"
+        }
+      ],
+      "path": "hub/skills/api-contract-checks"
+    },
+    {
+      "name": "bug-report-from-e2e-failure",
+      "description": "Use when an E2E test failed because of a real application defect and the user wants a bug report, a backlog item or an issue written from the failure, its video and screenshots.",
+      "overview": "Write a bug report a developer can reproduce in minutes, from the evidence ADK recorded.",
+      "category": "reporting",
+      "tags": [
+        "bug-report",
+        "e2e",
+        "triage",
+        "defects"
+      ],
+      "toolsets": [
+        "e2e",
+        "pbi",
+        "issues"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2125,
+          "sha256": "1566f93a77488ffac1cc5663587809089c74c07a0926128ed63a3d229af24635"
+        }
+      ],
+      "path": "hub/skills/bug-report-from-e2e-failure"
+    },
+    {
+      "name": "exploratory-testing-charter",
+      "description": "Use when the user wants to plan or run an exploratory testing session, write test charters for a feature or release, or turn session notes into findings and follow-up test cases.",
+      "overview": "Plan time-boxed exploratory sessions with a clear mission, and turn what was found into actions.",
+      "category": "test-design",
+      "tags": [
+        "exploratory",
+        "session-based",
+        "charters",
+        "heuristics"
+      ],
+      "toolsets": [
+        "brain",
+        "testplans"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2110,
+          "sha256": "5cae2eac7ea432c0566219b862f5ad0b7b083bf255b8e7719a8083f46c9a1d1d"
+        }
+      ],
+      "path": "hub/skills/exploratory-testing-charter"
+    },
+    {
+      "name": "playwright-flaky-test-triage",
+      "description": "Use when a Playwright end-to-end test passes and fails without code changes, when the user asks why an E2E test is flaky, or before quarantining or deleting an unstable test.",
+      "overview": "Find the real cause of an intermittent Playwright failure and fix it in the test or in the application, instead of adding retries or longer timeouts that hide the problem.",
+      "category": "e2e-automation",
+      "tags": [
+        "playwright",
+        "flaky",
+        "e2e",
+        "debugging"
+      ],
+      "toolsets": [
+        "e2e"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 3023,
+          "sha256": "d4113a3bde4d747c8b95323f88e73fac1c7603760480851198be0b4070f2e314"
+        }
+      ],
+      "path": "hub/skills/playwright-flaky-test-triage"
+    },
+    {
+      "name": "test-cases-from-acceptance-criteria",
+      "description": "Use when the user wants test cases written from a user story, PBI or acceptance criteria, or asks which scenarios, edge cases and negative cases a feature needs before it is tested.",
+      "overview": "Turn a backlog item into a small, complete set of test cases: every acceptance criterion covered, the risky edges tested, and nothing duplicated.",
+      "category": "test-design",
+      "tags": [
+        "test-cases",
+        "acceptance-criteria",
+        "boundary-values",
+        "bdd"
+      ],
+      "toolsets": [
+        "pbi",
+        "testplans"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 2604,
+          "sha256": "0f38d558254c85ba2c39f03e9c79f1ffabcd630fb6899516a302351d81b44491"
+        }
+      ],
+      "path": "hub/skills/test-cases-from-acceptance-criteria"
+    }
+  ],
+  "plugins": [],
+  "removed": []
+}

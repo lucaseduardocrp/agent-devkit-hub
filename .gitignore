@@ -1,0 +1,3 @@
+node_modules/
+# Checkout of the ADK repository used for the built-in skills (tools/cli.mjs --adk .adk).
+.adk/

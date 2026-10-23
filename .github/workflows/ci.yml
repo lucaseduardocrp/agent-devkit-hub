@@ -1,0 +1,74 @@
+name: CI
+
+# Admission gate for the ADK Hub (README.md). Every pull request must pass these checks before a
+# maintainer reviews it.
+#
+#   validate   every skill and plugin entry is well formed, and no skill takes the name of an ADK
+#              built-in skill (no network beyond the two checkouts, no repository code)
+#   plugins    each added or changed plugin is fetched at its pinned commit and must ship exactly
+#              what its entry declares; nothing from the plugin is executed
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'index.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check out the ADK built-in skills
+        uses: actions/checkout@v4
+        with:
+          repository: lucaseduardocrp/agent-devkit
+          path: .adk
+          sparse-checkout: apps/Mcp
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm test --prefix tools
+      - run: node tools/cli.mjs validate --adk .adk
+      - name: Pull requests must not edit the generated index
+        if: github.event_name == 'pull_request' && github.event.pull_request.user.login != github.repository_owner
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch --quiet --depth 1 origin "$BASE"
+          if git diff --name-only "$BASE" HEAD -- index.json | grep -q .; then
+            echo "::error::index.json is generated after merge; remove it from the pull request."
+            exit 1
+          fi
+
+  plugins:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # verify-plugin clones third-party repositories; keep the job token out of .git/config.
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify added and changed plugin entries at their pinned commits
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          CHANGED=$(git diff --name-only --diff-filter=AMRT "$BASE" HEAD -- 'plugins/*.json')
+          if [ -z "$CHANGED" ]; then
+            echo "No plugin entries changed."
+            exit 0
+          fi
+          # shellcheck disable=SC2086
+          node tools/cli.mjs verify-plugin $CHANGED

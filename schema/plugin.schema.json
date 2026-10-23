@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lucaseduardocrp/agent-devkit-hub/schema/plugin.schema.json",
+  "title": "ADK Hub plugin entry",
+  "description": "One plugins/<name>.json file. CI (tools) is the authority; this schema gives editor completion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "description", "repo", "sha", "maintainer", "category", "license", "capabilities"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64, "description": "Catalog key; the file must be <name>.json." },
+    "title": { "type": "string", "maxLength": 60, "description": "Human name on cards. Defaults to name." },
+    "description": { "type": "string", "minLength": 20, "maxLength": 600 },
+    "repo": { "type": "string", "pattern": "^https://(github\\.com|gitlab\\.com|codeberg\\.org)/[^/]+/[^/]+$" },
+    "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$", "description": "Exact commit installed. Branches and tags are refused." },
+    "subdir": { "type": "string", "description": "Folder of the plugin inside the repository, if not the root." },
+    "version": { "type": "string", "description": "SemVer label of the pinned code; must match adk-plugin.json." },
+    "maintainer": { "type": "string" },
+    "tier": { "enum": ["official", "verified", "community"], "default": "community", "description": "official and verified are set by ADK maintainers only." },
+    "category": { "enum": ["integrations", "test-management", "e2e", "knowledge", "agents", "devops", "general"] },
+    "license": { "type": "string", "description": "SPDX identifier, e.g. MIT." },
+    "homepage": { "type": "string", "pattern": "^https://" },
+    "image": { "type": "string", "pattern": "^https://([a-z0-9-]+\\.)*(github\\.com|githubusercontent\\.com)/", "description": "2:1 banner pinned to the entry's commit." },
+    "platforms": { "type": "array", "items": { "enum": ["linux", "macos", "windows"] }, "uniqueItems": true },
+    "requiresDevkit": { "type": "string", "pattern": "^>=\\d+\\.\\d+(\\.\\d+)?$" },
+    "disclosure": { "type": "string", "maxLength": 1000, "description": "What a user should know before installing: network calls, data sent to third parties, credentials stored." },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skills", "agents", "mcpServers", "requiresEnv"],
+      "properties": {
+        "skills": { "type": "array", "items": { "type": "string" }, "description": "Folders under skills/." },
+        "agents": { "type": "array", "items": { "type": "string" }, "description": "Files under agents/ without .md." },
+        "mcpServers": { "type": "array", "items": { "type": "string" }, "description": "Keys of mcpServers in .mcp.json." },
+        "requiresEnv": { "type": "array", "items": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" } }
+      }
+    }
+  }
+}

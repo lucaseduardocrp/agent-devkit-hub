@@ -1,0 +1,67 @@
+name: Index
+
+# Regenerates index.json, which `devkit skills|plugins` download and the website renders. The
+# index pins every skill file to the commit it was built from, with its sha256, so it is rebuilt
+# on each change to the hub on main. Built-in skills come from the ADK repository, which sends an
+# `adk-skills` dispatch when they change; the daily run catches anything missed and repairs an
+# index whose commit disappeared (for example after history was rewritten). Commits made with
+# GITHUB_TOKEN do not trigger workflows, so the bot commit never loops.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - 'plugins/**'
+      - 'categories.json'
+      - 'removed.json'
+      - 'tools/**'
+      - '.github/workflows/index.yml'
+  repository_dispatch:
+    types: [adk-skills]
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # Only the public repository serves the hub; forks and mirrors keep their copy untouched.
+    if: github.repository == 'lucaseduardocrp/agent-devkit-hub'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check out the ADK built-in skills
+        uses: actions/checkout@v4
+        with:
+          repository: lucaseduardocrp/agent-devkit
+          path: .adk
+          # Full history without file contents, so the build can find the last commit that
+          # changed apps/Mcp/skills.
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: apps/Mcp
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node tools/cli.mjs build --commit "$GITHUB_SHA" --adk .adk --if-changed
+      - name: Commit the index
+        run: |
+          if git diff --quiet -- index.json; then
+            echo "The index is current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.json
+          git commit -m "chore: regenerate index for ${GITHUB_SHA::12}"
+          git pull --rebase --quiet origin main
+          git push origin HEAD:main

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "my-service": {
+      "command": "npx",
+      "args": ["-y", "my-service-mcp@1.2.3"],
+      "env": { "MY_SERVICE_TOKEN": "${MY_SERVICE_TOKEN}" }
+    }
+  }
+}

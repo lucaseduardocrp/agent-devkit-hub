@@ -1,0 +1,24 @@
+{
+  "skills": [
+    { "id": "adk", "icon": "ti-box", "label": { "en-US": "ADK", "pt-BR": "ADK" } },
+    { "id": "test-design", "icon": "ti-list-check", "label": { "en-US": "Test design", "pt-BR": "Desenho de testes" } },
+    { "id": "e2e-automation", "icon": "ti-player-play", "label": { "en-US": "E2E automation", "pt-BR": "Automação E2E" } },
+    { "id": "api-testing", "icon": "ti-api", "label": { "en-US": "API testing", "pt-BR": "Testes de API" } },
+    { "id": "requirements", "icon": "ti-file-text", "label": { "en-US": "Requirements", "pt-BR": "Requisitos" } },
+    { "id": "knowledge", "icon": "ti-brain", "label": { "en-US": "Knowledge", "pt-BR": "Conhecimento" } },
+    { "id": "reporting", "icon": "ti-report", "label": { "en-US": "Reporting", "pt-BR": "Relatórios" } },
+    { "id": "devops", "icon": "ti-git-merge", "label": { "en-US": "DevOps", "pt-BR": "DevOps" } },
+    { "id": "agents", "icon": "ti-robot", "label": { "en-US": "Agents", "pt-BR": "Agentes" } },
+    { "id": "productivity", "icon": "ti-bolt", "label": { "en-US": "Productivity", "pt-BR": "Produtividade" } },
+    { "id": "other", "icon": "ti-dots", "label": { "en-US": "Other", "pt-BR": "Outros" } }
+  ],
+  "plugins": [
+    { "id": "integrations", "icon": "ti-plug-connected", "label": { "en-US": "Integrations", "pt-BR": "Integrações" } },
+    { "id": "test-management", "icon": "ti-checklist", "label": { "en-US": "Test management", "pt-BR": "Gestão de testes" } },
+    { "id": "e2e", "icon": "ti-player-play", "label": { "en-US": "E2E", "pt-BR": "E2E" } },
+    { "id": "knowledge", "icon": "ti-brain", "label": { "en-US": "Knowledge", "pt-BR": "Conhecimento" } },
+    { "id": "agents", "icon": "ti-robot", "label": { "en-US": "Agents", "pt-BR": "Agentes" } },
+    { "id": "devops", "icon": "ti-git-merge", "label": { "en-US": "DevOps", "pt-BR": "DevOps" } },
+    { "id": "general", "icon": "ti-puzzle", "label": { "en-US": "General", "pt-BR": "Geral" } }
+  ]
+}
