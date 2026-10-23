@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "repository": "lucaseduardocrp/agent-devkit",
-  "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6",
-  "generatedAt": "2026-10-22T19:25:13-03:00",
+  "repository": "lucaseduardocrp/agent-devkit-hub",
+  "commit": "1a8c43859a6174b71b99bf49cd481b0bb03f3391",
+  "generatedAt": "2026-10-23T07:24:41-03:00",
   "categories": {
     "skills": [
       {
@@ -172,7 +172,9 @@
           "sha256": "16bae79cb4b8e2fff230f926f84a3687f09a28aecf916157fa6c16eb6a3afbbf"
         }
       ],
-      "path": "apps/Mcp/skills/adk-agents"
+      "path": "apps/Mcp/skills/adk-agents",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-brain",
@@ -192,7 +194,9 @@
           "sha256": "5ca2b1a9bfbb2ccdfeb3250a951d86a486d3a61f9b88b2881ea185dbaccaef52"
         }
       ],
-      "path": "apps/Mcp/skills/adk-brain"
+      "path": "apps/Mcp/skills/adk-brain",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-design",
@@ -212,7 +216,9 @@
           "sha256": "e8513105586780edf4c16335d59c6d0de577c26d594f957955983512e6618f3e"
         }
       ],
-      "path": "apps/Mcp/skills/adk-design"
+      "path": "apps/Mcp/skills/adk-design",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-e2e",
@@ -232,7 +238,9 @@
           "sha256": "07993b3120798585282cf28449d03ca9cc17a7d646f53822410c3396341f661c"
         }
       ],
-      "path": "apps/Mcp/skills/adk-e2e"
+      "path": "apps/Mcp/skills/adk-e2e",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-getting-started",
@@ -252,7 +260,9 @@
           "sha256": "768bfccf93b62c64eb6da96e6eabf202b8b01308d88c552b203f2987e9b30ac3"
         }
       ],
-      "path": "apps/Mcp/skills/adk-getting-started"
+      "path": "apps/Mcp/skills/adk-getting-started",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-release-notes",
@@ -272,7 +282,9 @@
           "sha256": "10ea2cbcde75670371d7f3bf752ebeac25cba48e3c7ce6452efd3181cf0f92a3"
         }
       ],
-      "path": "apps/Mcp/skills/adk-release-notes"
+      "path": "apps/Mcp/skills/adk-release-notes",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-specs",
@@ -292,7 +304,9 @@
           "sha256": "a8210e70162989afe7feec76ec69b2f03827f36b4002f54ebe8ddde00de63229"
         }
       ],
-      "path": "apps/Mcp/skills/adk-specs"
+      "path": "apps/Mcp/skills/adk-specs",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-test-plans",
@@ -312,7 +326,9 @@
           "sha256": "1cb562d583846f71fe05c376019aded84bbae1b2e3c837719dd8d4cd3afcb765"
         }
       ],
-      "path": "apps/Mcp/skills/adk-test-plans"
+      "path": "apps/Mcp/skills/adk-test-plans",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "adk-workspace-admin",
@@ -332,7 +348,9 @@
           "sha256": "d62bbe2192c0e3d9d5499f344143c76019bf741c49c1851cb07bc3d108c76d50"
         }
       ],
-      "path": "apps/Mcp/skills/adk-workspace-admin"
+      "path": "apps/Mcp/skills/adk-workspace-admin",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "25954e7b665c980908771ab8ec9c87fa9216c4b6"
     },
     {
       "name": "api-contract-checks",
@@ -360,7 +378,7 @@
           "sha256": "8e447862dfb8a9cd58faf9e7dd825a657d02b83bb989513be50cb5cebf2eb3b6"
         }
       ],
-      "path": "hub/skills/api-contract-checks"
+      "path": "skills/api-contract-checks"
     },
     {
       "name": "bug-report-from-e2e-failure",
@@ -389,7 +407,7 @@
           "sha256": "1566f93a77488ffac1cc5663587809089c74c07a0926128ed63a3d229af24635"
         }
       ],
-      "path": "hub/skills/bug-report-from-e2e-failure"
+      "path": "skills/bug-report-from-e2e-failure"
     },
     {
       "name": "exploratory-testing-charter",
@@ -417,7 +435,7 @@
           "sha256": "5cae2eac7ea432c0566219b862f5ad0b7b083bf255b8e7719a8083f46c9a1d1d"
         }
       ],
-      "path": "hub/skills/exploratory-testing-charter"
+      "path": "skills/exploratory-testing-charter"
     },
     {
       "name": "playwright-flaky-test-triage",
@@ -444,7 +462,7 @@
           "sha256": "d4113a3bde4d747c8b95323f88e73fac1c7603760480851198be0b4070f2e314"
         }
       ],
-      "path": "hub/skills/playwright-flaky-test-triage"
+      "path": "skills/playwright-flaky-test-triage"
     },
     {
       "name": "test-cases-from-acceptance-criteria",
@@ -472,7 +490,7 @@
           "sha256": "0f38d558254c85ba2c39f03e9c79f1ffabcd630fb6899516a302351d81b44491"
         }
       ],
-      "path": "hub/skills/test-cases-from-acceptance-criteria"
+      "path": "skills/test-cases-from-acceptance-criteria"
     }
   ],
   "plugins": [],
