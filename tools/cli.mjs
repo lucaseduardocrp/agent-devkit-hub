@@ -63,18 +63,24 @@ switch (command) {
     const index = buildIndex(root, {
       ...(values.commit ? { commit: values.commit } : {}),
       ...(values.repository ? { repository: values.repository } : {}),
-      ...(adk ? { adk: { root: adk, ...(values['adk-commit'] ? { commit: values['adk-commit'] } : {}) } } : {}),
+      ...(adk
+        ? { adk: { root: adk, ...(values['adk-commit'] ? { commit: values['adk-commit'] } : {}) } }
+        : {}),
     });
     const out = resolve(values.out ?? join(root, 'index.json'));
     if (values['if-changed'] && existsSync(out)) {
       const previous = JSON.parse(readFileSync(out, 'utf8'));
       if (sameContent(previous, index) && isKnownCommit(root, previous.commit)) {
-        console.log(`unchanged: ${out} already lists this content at ${String(previous.commit).slice(0, 12)}`);
+        console.log(
+          `unchanged: ${out} already lists this content at ${String(previous.commit).slice(0, 12)}`,
+        );
         break;
       }
     }
     writeFileSync(out, `${JSON.stringify(index, null, 2)}\n`);
-    console.log(`wrote ${out}: ${index.skills.length} skills, ${index.plugins.length} plugins at ${index.commit.slice(0, 12)}`);
+    console.log(
+      `wrote ${out}: ${index.skills.length} skills, ${index.plugins.length} plugins at ${index.commit.slice(0, 12)}`,
+    );
     break;
   }
   case 'verify-plugin': {
@@ -82,7 +88,11 @@ switch (command) {
     const categories = hub.categories.plugins.map((category) => category.id);
     for (const file of files) {
       const entry = JSON.parse(readFileSync(resolve(file), 'utf8'));
-      const structural = validatePluginEntry(entry, { fileName: basename(file), categories, removed: hub.removed });
+      const structural = validatePluginEntry(entry, {
+        fileName: basename(file),
+        categories,
+        removed: hub.removed,
+      });
       if (structural.length) {
         report(structural.map((problem) => `${file}: ${problem}`));
         continue;
@@ -104,6 +114,8 @@ switch (command) {
     break;
   }
   default:
-    console.error('Usage: node tools/cli.mjs validate [--adk DIR] | build [--commit SHA] [--out FILE] [--if-changed] [--adk DIR [--adk-commit SHA]] | verify-plugin FILE...');
+    console.error(
+      'Usage: node tools/cli.mjs validate [--adk DIR] | build [--commit SHA] [--out FILE] [--if-changed] [--adk DIR [--adk-commit SHA]] | verify-plugin FILE...',
+    );
     process.exitCode = 1;
 }

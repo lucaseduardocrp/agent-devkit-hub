@@ -34,6 +34,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - run: npm ci --prefix tools
+      - run: npm run lint --prefix tools
+      - run: npm run format:check --prefix tools
       - run: npm test --prefix tools
       - run: node tools/cli.mjs validate --adk .adk
       - name: Pull requests must not edit the generated index

@@ -41,19 +41,56 @@ export const TOOLSETS = [
 
 /** Text files a skill may ship. Anything else (binaries, archives, images) is refused. */
 const SKILL_EXTENSIONS = new Set([
-  '.md', '.txt', '.json', '.yaml', '.yml', '.csv', '.html', '.xml',
-  '.js', '.mjs', '.ts', '.py', '.sh', '.ps1', '.feature', '.sql',
+  '.md',
+  '.txt',
+  '.json',
+  '.yaml',
+  '.yml',
+  '.csv',
+  '.html',
+  '.xml',
+  '.js',
+  '.mjs',
+  '.ts',
+  '.py',
+  '.sh',
+  '.ps1',
+  '.feature',
+  '.sql',
 ]);
 export const SKILL_LIMITS = { files: 50, fileBytes: 256 * 1024, totalBytes: 1024 * 1024 };
 export const PLUGIN_LIMITS = { totalBytes: 20 * 1024 * 1024 };
 
 const SKILL_FIELDS = new Set([
-  'name', 'description', 'category', 'author', 'version', 'license', 'tier', 'tags', 'toolsets',
+  'name',
+  'description',
+  'category',
+  'author',
+  'version',
+  'license',
+  'tier',
+  'tags',
+  'toolsets',
 ]);
 const PLUGIN_FIELDS = new Set([
-  '$schema', 'name', 'title', 'description', 'repo', 'sha', 'subdir', 'version', 'maintainer',
-  'tier', 'category', 'license', 'homepage', 'image', 'platforms', 'requiresDevkit',
-  'capabilities', 'disclosure',
+  '$schema',
+  'name',
+  'title',
+  'description',
+  'repo',
+  'sha',
+  'subdir',
+  'version',
+  'maintainer',
+  'tier',
+  'category',
+  'license',
+  'homepage',
+  'image',
+  'platforms',
+  'requiresDevkit',
+  'capabilities',
+  'disclosure',
 ]);
 const CAPABILITY_FIELDS = ['skills', 'agents', 'mcpServers', 'requiresEnv'];
 
@@ -64,7 +101,8 @@ const CAPABILITY_FIELDS = ['skills', 'agents', 'mcpServers', 'requiresEnv'];
  */
 export function parseFrontmatter(text) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/.exec(text);
-  if (!match) return { fields: null, body: text, errors: ['SKILL.md must start with a --- front matter block'] };
+  if (!match)
+    return { fields: null, body: text, errors: ['SKILL.md must start with a --- front matter block'] };
   const fields = {};
   const errors = [];
   for (const line of match[1].split(/\r?\n/)) {
@@ -99,7 +137,8 @@ function unquote(value) {
       return value.slice(1, -1);
     }
   }
-  if (value.length >= 2 && value.startsWith("'") && value.endsWith("'")) return value.slice(1, -1).replaceAll("''", "'");
+  if (value.length >= 2 && value.startsWith("'") && value.endsWith("'"))
+    return value.slice(1, -1).replaceAll("''", "'");
   return value;
 }
 
@@ -123,7 +162,9 @@ export function readTree(directory, { extensions = SKILL_EXTENSIONS, limits = SK
   const errors = [];
   let total = 0;
   const walk = (current) => {
-    for (const entry of readdirSync(current, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    for (const entry of readdirSync(current, { withFileTypes: true }).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )) {
       const path = join(current, entry.name);
       const shown = toPosix(relative(directory, path));
       if (lstatSync(path).isSymbolicLink()) {
@@ -138,12 +179,16 @@ export function readTree(directory, { extensions = SKILL_EXTENSIONS, limits = SK
         walk(path);
         continue;
       }
-      const extension = entry.name.includes('.') ? entry.name.slice(entry.name.lastIndexOf('.')).toLowerCase() : '';
+      const extension = entry.name.includes('.')
+        ? entry.name.slice(entry.name.lastIndexOf('.')).toLowerCase()
+        : '';
       const content = readFileSync(path);
       total += content.length;
-      if (!extensions.has(extension)) errors.push(`${shown}: file type "${extension || 'none'}" is not allowed`);
+      if (!extensions.has(extension))
+        errors.push(`${shown}: file type "${extension || 'none'}" is not allowed`);
       else if (content.includes(0)) errors.push(`${shown}: binary content is not allowed`);
-      if (content.length > limits.fileBytes) errors.push(`${shown}: larger than ${limits.fileBytes / 1024} KB`);
+      if (content.length > limits.fileBytes)
+        errors.push(`${shown}: larger than ${limits.fileBytes / 1024} KB`);
       files.push({ path: shown, size: content.length, sha256: sha256(content) });
     }
   };
@@ -249,29 +294,54 @@ export function validatePluginEntry(entry, { fileName, categories = [], removed 
   const text = (key) => (typeof entry[key] === 'string' ? entry[key].trim() : '');
   const name = text('name');
 
-  if (!NAME_PATTERN.test(name) || name.length > 64) errors.push('name must be lowercase words joined by hyphens (max 64 characters)');
+  if (!NAME_PATTERN.test(name) || name.length > 64)
+    errors.push('name must be lowercase words joined by hyphens (max 64 characters)');
   if (fileName && fileName !== `${name}.json`) errors.push(`the file must be named ${name}.json`);
-  if (entry.title !== undefined && (!text('title') || text('title').length > 60)) errors.push('title must have 1 to 60 characters');
-  if (text('description').length < 20 || text('description').length > 600) errors.push('description must have 20 to 600 characters');
-  if (!isHttpsUrl(text('repo'), REPO_HOSTS) || !/^https:\/\/[^/]+\/[^/]+\/[^/]+$/.test(text('repo').replace(/\.git$/, ''))) {
+  if (entry.title !== undefined && (!text('title') || text('title').length > 60))
+    errors.push('title must have 1 to 60 characters');
+  if (text('description').length < 20 || text('description').length > 600)
+    errors.push('description must have 20 to 600 characters');
+  if (
+    !isHttpsUrl(text('repo'), REPO_HOSTS) ||
+    !/^https:\/\/[^/]+\/[^/]+\/[^/]+$/.test(text('repo').replace(/\.git$/, ''))
+  ) {
     errors.push(`repo must be an https URL of a repository on ${REPO_HOSTS.join(', ')}`);
   }
-  if (!SHA_PATTERN.test(text('sha'))) errors.push('sha must be a full 40-character commit SHA (branches and tags are not accepted)');
-  if (entry.subdir !== undefined && entry.subdir !== '' && !text('subdir').split('/').every((segment) => SUBDIR_SEGMENT.test(segment) && segment !== '..')) {
+  if (!SHA_PATTERN.test(text('sha')))
+    errors.push('sha must be a full 40-character commit SHA (branches and tags are not accepted)');
+  if (
+    entry.subdir !== undefined &&
+    entry.subdir !== '' &&
+    !text('subdir')
+      .split('/')
+      .every((segment) => SUBDIR_SEGMENT.test(segment) && segment !== '..')
+  ) {
     errors.push('subdir must be a plain relative path inside the repository');
   }
-  if (entry.version !== undefined && !SEMVER_PATTERN.test(text('version'))) errors.push('version must be SemVer, e.g. 1.0.0');
+  if (entry.version !== undefined && !SEMVER_PATTERN.test(text('version')))
+    errors.push('version must be SemVer, e.g. 1.0.0');
   if (!text('maintainer')) errors.push('maintainer is required');
-  if (!PLUGIN_TIERS.includes(entry.tier ?? 'community')) errors.push(`tier must be one of: ${PLUGIN_TIERS.join(', ')}`);
-  if (!categories.includes(text('category'))) errors.push(`category must be one of: ${categories.join(', ')}`);
+  if (!PLUGIN_TIERS.includes(entry.tier ?? 'community'))
+    errors.push(`tier must be one of: ${PLUGIN_TIERS.join(', ')}`);
+  if (!categories.includes(text('category')))
+    errors.push(`category must be one of: ${categories.join(', ')}`);
   if (!LICENSE_PATTERN.test(text('license'))) errors.push('license must be an SPDX identifier, e.g. MIT');
-  if (entry.homepage !== undefined && !isHttpsUrl(text('homepage'))) errors.push('homepage must be an https URL');
-  if (entry.image !== undefined && !isHttpsUrl(text('image'), IMAGE_HOSTS)) errors.push(`image must be an https URL on ${IMAGE_HOSTS.join(' or ')}`);
-  if (entry.platforms !== undefined && (!Array.isArray(entry.platforms) || entry.platforms.some((platform) => !PLATFORMS.includes(platform)))) {
+  if (entry.homepage !== undefined && !isHttpsUrl(text('homepage')))
+    errors.push('homepage must be an https URL');
+  if (entry.image !== undefined && !isHttpsUrl(text('image'), IMAGE_HOSTS))
+    errors.push(`image must be an https URL on ${IMAGE_HOSTS.join(' or ')}`);
+  if (
+    entry.platforms !== undefined &&
+    (!Array.isArray(entry.platforms) || entry.platforms.some((platform) => !PLATFORMS.includes(platform)))
+  ) {
     errors.push(`platforms must be a list of: ${PLATFORMS.join(', ')}`);
   }
-  if (entry.requiresDevkit !== undefined && !RANGE_PATTERN.test(text('requiresDevkit'))) errors.push('requiresDevkit must be a floor such as ">=0.2.0"');
-  if (entry.disclosure !== undefined && (typeof entry.disclosure !== 'string' || entry.disclosure.length > 1000)) {
+  if (entry.requiresDevkit !== undefined && !RANGE_PATTERN.test(text('requiresDevkit')))
+    errors.push('requiresDevkit must be a floor such as ">=0.2.0"');
+  if (
+    entry.disclosure !== undefined &&
+    (typeof entry.disclosure !== 'string' || entry.disclosure.length > 1000)
+  ) {
     errors.push('disclosure must be a string of up to 1000 characters');
   }
 
@@ -285,17 +355,30 @@ export function validatePluginEntry(entry, { fileName, categories = [], removed 
     for (const key of CAPABILITY_FIELDS) {
       const values = capabilities[key];
       const pattern = key === 'requiresEnv' ? ENV_PATTERN : NAME_PATTERN;
-      if (!Array.isArray(values) || values.some((value) => typeof value !== 'string' || !pattern.test(value))) {
-        errors.push(`capabilities.${key} must be a list of ${key === 'requiresEnv' ? 'UPPER_CASE variable names' : 'lowercase names'}`);
+      if (
+        !Array.isArray(values) ||
+        values.some((value) => typeof value !== 'string' || !pattern.test(value))
+      ) {
+        errors.push(
+          `capabilities.${key} must be a list of ${key === 'requiresEnv' ? 'UPPER_CASE variable names' : 'lowercase names'}`,
+        );
       }
     }
-    if (CAPABILITY_FIELDS.slice(0, 3).every((key) => Array.isArray(capabilities[key]) && capabilities[key].length === 0)) {
+    if (
+      CAPABILITY_FIELDS.slice(0, 3).every(
+        (key) => Array.isArray(capabilities[key]) && capabilities[key].length === 0,
+      )
+    ) {
       errors.push('a plugin must provide at least one skill, agent or MCP server');
     }
   }
 
-  const repo = text('repo').replace(/\.git$/, '').toLowerCase();
-  const blocked = removed.find((item) => item.name === name || (item.repo && item.repo.replace(/\.git$/, '').toLowerCase() === repo));
+  const repo = text('repo')
+    .replace(/\.git$/, '')
+    .toLowerCase();
+  const blocked = removed.find(
+    (item) => item.name === name || (item.repo && item.repo.replace(/\.git$/, '').toLowerCase() === repo),
+  );
   if (blocked) errors.push(`"${blocked.name}" was removed from the hub: ${blocked.reason}`);
   return errors;
 }
@@ -330,7 +413,8 @@ export function verifyPluginSource(directory, entry, { categories = [] } = {}) {
   } catch (error) {
     return [`adk-plugin.json is not valid JSON: ${error.message}`];
   }
-  if (manifest.name !== entry.name) errors.push(`adk-plugin.json name "${manifest.name}" does not match the entry "${entry.name}"`);
+  if (manifest.name !== entry.name)
+    errors.push(`adk-plugin.json name "${manifest.name}" does not match the entry "${entry.name}"`);
   if (entry.version && manifest.version !== entry.version) {
     errors.push(`adk-plugin.json version "${manifest.version}" does not match the entry "${entry.version}"`);
   }
@@ -338,22 +422,30 @@ export function verifyPluginSource(directory, entry, { categories = [] } = {}) {
   const declared = entry.capabilities ?? {};
   const skillsDir = join(directory, 'skills');
   const skills = existsSync(skillsDir)
-    ? readdirSync(skillsDir, { withFileTypes: true }).filter((item) => item.isDirectory()).map((item) => item.name)
+    ? readdirSync(skillsDir, { withFileTypes: true })
+        .filter((item) => item.isDirectory())
+        .map((item) => item.name)
     : [];
   for (const skill of skills) {
     const result = validateSkill(join(skillsDir, skill), { lenient: true, categories });
     errors.push(...result.errors.map((error) => `skills/${skill}: ${error}`));
   }
   if (!sameSet(skills, declared.skills ?? [])) {
-    errors.push(`capabilities.skills [${(declared.skills ?? []).join(', ')}] does not match skills/ [${skills.join(', ')}]`);
+    errors.push(
+      `capabilities.skills [${(declared.skills ?? []).join(', ')}] does not match skills/ [${skills.join(', ')}]`,
+    );
   }
 
   const agentsDir = join(directory, 'agents');
   const agents = existsSync(agentsDir)
-    ? readdirSync(agentsDir).filter((file) => file.endsWith('.md')).map((file) => file.slice(0, -3))
+    ? readdirSync(agentsDir)
+        .filter((file) => file.endsWith('.md'))
+        .map((file) => file.slice(0, -3))
     : [];
   if (!sameSet(agents, declared.agents ?? [])) {
-    errors.push(`capabilities.agents [${(declared.agents ?? []).join(', ')}] does not match agents/ [${agents.join(', ')}]`);
+    errors.push(
+      `capabilities.agents [${(declared.agents ?? []).join(', ')}] does not match agents/ [${agents.join(', ')}]`,
+    );
   }
 
   const mcpPath = join(directory, '.mcp.json');
@@ -366,16 +458,26 @@ export function verifyPluginSource(directory, entry, { categories = [] } = {}) {
     }
   }
   if (!sameSet(Object.keys(servers), declared.mcpServers ?? [])) {
-    errors.push(`capabilities.mcpServers [${(declared.mcpServers ?? []).join(', ')}] does not match .mcp.json [${Object.keys(servers).join(', ')}]`);
+    errors.push(
+      `capabilities.mcpServers [${(declared.mcpServers ?? []).join(', ')}] does not match .mcp.json [${Object.keys(servers).join(', ')}]`,
+    );
   }
   for (const [id, server] of Object.entries(servers)) {
-    if (server.url !== undefined && !isHttpsUrl(server.url)) errors.push(`.mcp.json ${id}: url must be https`);
-    if (server.url === undefined && typeof server.command !== 'string') errors.push(`.mcp.json ${id}: needs a command or an https url`);
+    if (server.url !== undefined && !isHttpsUrl(server.url))
+      errors.push(`.mcp.json ${id}: url must be https`);
+    if (server.url === undefined && typeof server.command !== 'string')
+      errors.push(`.mcp.json ${id}: needs a command or an https url`);
   }
-  const referenced = new Set(JSON.stringify(servers).match(/\$\{([A-Z][A-Z0-9_]*)\}/g)?.map((match) => match.slice(2, -1)));
-  for (const variable of Object.values(servers).flatMap((server) => Object.keys(server.env ?? {}))) referenced.add(variable);
+  const referenced = new Set(
+    JSON.stringify(servers)
+      .match(/\$\{([A-Z][A-Z0-9_]*)\}/g)
+      ?.map((match) => match.slice(2, -1)),
+  );
+  for (const variable of Object.values(servers).flatMap((server) => Object.keys(server.env ?? {})))
+    referenced.add(variable);
   const missingEnv = [...referenced].filter((variable) => !(declared.requiresEnv ?? []).includes(variable));
-  if (missingEnv.length) errors.push(`capabilities.requiresEnv is missing ${missingEnv.join(', ')} used by .mcp.json`);
+  if (missingEnv.length)
+    errors.push(`capabilities.requiresEnv is missing ${missingEnv.join(', ')} used by .mcp.json`);
 
   let total = 0;
   const walk = (current) => {
@@ -390,12 +492,14 @@ export function verifyPluginSource(directory, entry, { categories = [] } = {}) {
       } else {
         const content = readFileSync(path);
         total += content.length;
-        if (isExecutablePayload(shown, content)) errors.push(`${shown}: compiled binaries and bytecode are not allowed`);
+        if (isExecutablePayload(shown, content))
+          errors.push(`${shown}: compiled binaries and bytecode are not allowed`);
       }
     }
   };
   walk(directory);
-  if (total > PLUGIN_LIMITS.totalBytes) errors.push(`the plugin is larger than ${PLUGIN_LIMITS.totalBytes / 1024 / 1024} MB`);
+  if (total > PLUGIN_LIMITS.totalBytes)
+    errors.push(`the plugin is larger than ${PLUGIN_LIMITS.totalBytes / 1024 / 1024} MB`);
   return errors;
 }
 
@@ -417,7 +521,12 @@ export function checkoutPinned(repo, sha, directory) {
 
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 const subfolders = (path) =>
-  existsSync(path) ? readdirSync(path, { withFileTypes: true }).filter((item) => item.isDirectory()).map((item) => item.name).sort() : [];
+  existsSync(path)
+    ? readdirSync(path, { withFileTypes: true })
+        .filter((item) => item.isDirectory())
+        .map((item) => item.name)
+        .sort()
+    : [];
 
 /**
  * Reads and validates everything in the hub. `errors` lists every problem as "path: message".
@@ -436,11 +545,13 @@ export function loadHub(root, { adk } = {}) {
     const builtInRoot = join(adk, 'apps', 'Mcp', 'skills');
     const mcpPackage = join(adk, 'apps', 'Mcp', 'package.json');
     const builtInVersion = existsSync(mcpPackage) ? readJson(mcpPackage).version : '';
-    if (!existsSync(builtInRoot)) errors.push(`${adk}: apps/Mcp/skills is missing; is it a checkout of ${ADK_REPOSITORY}?`);
+    if (!existsSync(builtInRoot))
+      errors.push(`${adk}: apps/Mcp/skills is missing; is it a checkout of ${ADK_REPOSITORY}?`);
     for (const folder of subfolders(builtInRoot)) {
       const result = validateSkill(join(builtInRoot, folder), { builtIn: true });
       errors.push(...result.errors.map((error) => `apps/Mcp/skills/${folder}: ${error}`));
-      if (result.skill) skills.push({ ...result.skill, version: builtInVersion, path: `apps/Mcp/skills/${folder}` });
+      if (result.skill)
+        skills.push({ ...result.skill, version: builtInVersion, path: `apps/Mcp/skills/${folder}` });
     }
   }
   for (const folder of subfolders(join(root, 'skills'))) {
@@ -452,12 +563,17 @@ export function loadHub(root, { adk } = {}) {
   for (const skill of skills) {
     if (seen.has(skill.name)) errors.push(`${skill.path}: another skill is already named "${skill.name}"`);
     seen.add(skill.name);
-    if (removed.some((item) => item.name === skill.name)) errors.push(`${skill.path}: "${skill.name}" was removed from the hub`);
+    if (removed.some((item) => item.name === skill.name))
+      errors.push(`${skill.path}: "${skill.name}" was removed from the hub`);
   }
 
   const plugins = [];
   const pluginsDir = join(root, 'plugins');
-  const pluginFiles = existsSync(pluginsDir) ? readdirSync(pluginsDir).filter((file) => !file.startsWith('.')).sort() : [];
+  const pluginFiles = existsSync(pluginsDir)
+    ? readdirSync(pluginsDir)
+        .filter((file) => !file.startsWith('.'))
+        .sort()
+    : [];
   for (const file of pluginFiles) {
     if (!file.endsWith('.json')) {
       errors.push(`plugins/${file}: only <name>.json entries belong here`);
@@ -492,7 +608,11 @@ function normalizePlugin(entry) {
 
 function gitOutput(root, args) {
   try {
-    return execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    return execFileSync('git', args, {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
   } catch {
     return '';
   }
@@ -509,7 +629,9 @@ function gitOutput(root, args) {
 export function buildIndex(root, { commit, repository = DEFAULT_REPOSITORY, adk } = {}) {
   const hub = loadHub(root, { adk: adk?.root });
   if (hub.errors.length) {
-    const error = new Error(`The hub has ${hub.errors.length} problem(s):\n${hub.errors.map((item) => `  - ${item}`).join('\n')}`);
+    const error = new Error(
+      `The hub has ${hub.errors.length} problem(s):\n${hub.errors.map((item) => `  - ${item}`).join('\n')}`,
+    );
     error.problems = hub.errors;
     throw error;
   }
@@ -517,10 +639,14 @@ export function buildIndex(root, { commit, repository = DEFAULT_REPOSITORY, adk 
   const generatedAt = gitOutput(root, ['show', '-s', '--format=%cI', resolved]) || new Date().toISOString();
   const adkSource = adk && {
     repository: adk.repository ?? ADK_REPOSITORY,
-    commit: adk.commit ?? gitOutput(adk.root, ['log', '-1', '--format=%H', '--', 'apps/Mcp/skills', 'apps/Mcp/package.json']),
+    commit:
+      adk.commit ??
+      gitOutput(adk.root, ['log', '-1', '--format=%H', '--', 'apps/Mcp/skills', 'apps/Mcp/package.json']),
   };
   if (adkSource && !SHA_PATTERN.test(adkSource.commit)) {
-    throw new Error(`Could not tell which ADK commit the built-in skills come from ("${adkSource.commit}"); pass --adk-commit.`);
+    throw new Error(
+      `Could not tell which ADK commit the built-in skills come from ("${adkSource.commit}"); pass --adk-commit.`,
+    );
   }
   const skills = hub.skills.map((skill) => (skill.tier === 'built-in' ? { ...skill, ...adkSource } : skill));
   const tierRank = { 'built-in': 0, official: 1, verified: 2, community: 3 };

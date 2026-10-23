@@ -66,11 +66,16 @@ test('front matter supports quoted values and inline lists, and refuses nested k
 });
 
 test('the overview is the first prose paragraph after the title', () => {
-  assert.equal(overviewOf('\n# Title\n\n- list\n\nThe **real** paragraph\ncontinues.\n'), 'The real paragraph continues.');
+  assert.equal(
+    overviewOf('\n# Title\n\n- list\n\nThe **real** paragraph\ncontinues.\n'),
+    'The real paragraph continues.',
+  );
 });
 
 test('a complete hub skill is valid and hashed', () => {
-  const { skill, errors } = validateSkill(skillDir('edge-hunter', fullFrontmatter('edge-hunter')), { categories });
+  const { skill, errors } = validateSkill(skillDir('edge-hunter', fullFrontmatter('edge-hunter')), {
+    categories,
+  });
   assert.deepEqual(errors, []);
   assert.equal(skill.tier, 'community');
   assert.deepEqual(skill.tags, ['qa', 'edge-cases']);
@@ -92,8 +97,17 @@ test('skill names, unknown fields, toolsets and short bodies are refused', () =>
     skillDir('Bad_Name', `${fullFrontmatter('other')}\nhomepage: x\ntoolsets: [nope]`, '\nshort\n'),
     { categories },
   );
-  for (const expected of [/folder name/, /must match the folder/, /unknown front matter field "homepage"/, /toolsets/, /body/]) {
-    assert.ok(errors.some((error) => expected.test(error)), `missing ${expected}`);
+  for (const expected of [
+    /folder name/,
+    /must match the folder/,
+    /unknown front matter field "homepage"/,
+    /toolsets/,
+    /body/,
+  ]) {
+    assert.ok(
+      errors.some((error) => expected.test(error)),
+      `missing ${expected}`,
+    );
   }
 });
 
@@ -126,32 +140,63 @@ test('a plugin entry needs an exact SHA, an https repository and declared capabi
     options,
   );
   for (const expected of [/sha must be/, /repo must be/, /subdir/, /tier/, /unknown field "extra"/]) {
-    assert.ok(errors.some((error) => expected.test(error)), `missing ${expected}`);
+    assert.ok(
+      errors.some((error) => expected.test(error)),
+      `missing ${expected}`,
+    );
   }
   const empty = pluginEntry({ capabilities: { skills: [], agents: [], mcpServers: [], requiresEnv: [] } });
   assert.ok(validatePluginEntry(empty, options).some((error) => /at least one/.test(error)));
-  assert.ok(validatePluginEntry(pluginEntry(), { ...options, fileName: 'other.json' }).some((error) => /named jira-qa.json/.test(error)));
+  assert.ok(
+    validatePluginEntry(pluginEntry(), { ...options, fileName: 'other.json' }).some((error) =>
+      /named jira-qa.json/.test(error),
+    ),
+  );
 });
 
 test('removed plugins cannot come back under the same name or repository', () => {
-  const removed = [{ name: 'evil', repo: 'https://github.com/acme/adk-jira', reason: 'credential theft', date: '2026-10-01' }];
-  const errors = validatePluginEntry(pluginEntry(), { fileName: 'jira-qa.json', categories: ['integrations'], removed });
+  const removed = [
+    {
+      name: 'evil',
+      repo: 'https://github.com/acme/adk-jira',
+      reason: 'credential theft',
+      date: '2026-10-01',
+    },
+  ];
+  const errors = validatePluginEntry(pluginEntry(), {
+    fileName: 'jira-qa.json',
+    categories: ['integrations'],
+    removed,
+  });
   assert.ok(errors.some((error) => /removed from the hub: credential theft/.test(error)));
 });
 
-function pluginSource({ skills = ['jira-triage'], mcp = { jira: { command: 'npx', args: ['-y', 'jira-mcp@1.0.0'], env: { JIRA_TOKEN: '${JIRA_TOKEN}' } } } } = {}) {
+function pluginSource({
+  skills = ['jira-triage'],
+  mcp = { jira: { command: 'npx', args: ['-y', 'jira-mcp@1.0.0'], env: { JIRA_TOKEN: '${JIRA_TOKEN}' } } },
+} = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'hub-plugin-'));
   write(join(dir, 'adk-plugin.json'), JSON.stringify({ name: 'jira-qa', version: '1.0.0' }));
-  for (const skill of skills) write(join(dir, 'skills', skill, 'SKILL.md'), `---\nname: ${skill}\ndescription: Use when triaging Jira issues for QA.\n---\n${body}`);
+  for (const skill of skills)
+    write(
+      join(dir, 'skills', skill, 'SKILL.md'),
+      `---\nname: ${skill}\ndescription: Use when triaging Jira issues for QA.\n---\n${body}`,
+    );
   write(join(dir, '.mcp.json'), JSON.stringify({ mcpServers: mcp }));
   return dir;
 }
 
 test('a plugin source must ship exactly what its entry declares', () => {
   assert.deepEqual(verifyPluginSource(pluginSource(), pluginEntry()), []);
-  const undeclared = verifyPluginSource(pluginSource({ skills: ['jira-triage', 'secret-skill'] }), pluginEntry());
+  const undeclared = verifyPluginSource(
+    pluginSource({ skills: ['jira-triage', 'secret-skill'] }),
+    pluginEntry(),
+  );
   assert.ok(undeclared.some((error) => /capabilities.skills/.test(error)));
-  const env = verifyPluginSource(pluginSource({ mcp: { jira: { command: 'npx', env: { API_KEY: 'x' } } } }), pluginEntry());
+  const env = verifyPluginSource(
+    pluginSource({ mcp: { jira: { command: 'npx', env: { API_KEY: 'x' } } } }),
+    pluginEntry(),
+  );
   assert.ok(env.some((error) => /requiresEnv is missing API_KEY/.test(error)));
 });
 
@@ -165,7 +210,8 @@ test('a plugin source may not ship compiled binaries or bytecode', () => {
 });
 
 test('checkoutPinned fetches exactly the pinned commit', (t) => {
-  const git = (cwd, ...args) => execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  const git = (cwd, ...args) =>
+    execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   const origin = mkdtempSync(join(tmpdir(), 'hub-origin-'));
   try {
     git(origin, 'init', '--quiet');
@@ -199,8 +245,14 @@ test('the repository hub is valid and builds a sorted index', () => {
 test('built-in skills come from an ADK checkout, pinned to their own repository and commit', () => {
   const adk = mkdtempSync(join(tmpdir(), 'hub-adk-'));
   write(join(adk, 'apps', 'Mcp', 'package.json'), '{ "version": "0.3.0" }');
-  write(join(adk, 'apps', 'Mcp', 'skills', 'adk-basics', 'SKILL.md'), `---\nname: adk-basics\ndescription: Use when the user starts with ADK.\n---${body}`);
-  const index = buildIndex(repositoryRoot, { commit: 'b'.repeat(40), adk: { root: adk, commit: 'd'.repeat(40) } });
+  write(
+    join(adk, 'apps', 'Mcp', 'skills', 'adk-basics', 'SKILL.md'),
+    `---\nname: adk-basics\ndescription: Use when the user starts with ADK.\n---${body}`,
+  );
+  const index = buildIndex(repositoryRoot, {
+    commit: 'b'.repeat(40),
+    adk: { root: adk, commit: 'd'.repeat(40) },
+  });
   const [first] = index.skills;
   assert.equal(first.name, 'adk-basics');
   assert.equal(first.tier, 'built-in');
@@ -208,6 +260,13 @@ test('built-in skills come from an ADK checkout, pinned to their own repository 
   assert.equal(first.path, 'apps/Mcp/skills/adk-basics');
   assert.equal(first.repository, 'lucaseduardocrp/agent-devkit');
   assert.equal(first.commit, 'd'.repeat(40));
-  assert.throws(() => buildIndex(repositoryRoot, { commit: 'b'.repeat(40), adk: { root: adk, commit: 'main' } }), /ADK commit/);
-  assert.ok(loadHub(repositoryRoot, { adk: tmpdir() }).errors.some((error) => /apps\/Mcp\/skills is missing/.test(error)));
+  assert.throws(
+    () => buildIndex(repositoryRoot, { commit: 'b'.repeat(40), adk: { root: adk, commit: 'main' } }),
+    /ADK commit/,
+  );
+  assert.ok(
+    loadHub(repositoryRoot, { adk: tmpdir() }).errors.some((error) =>
+      /apps\/Mcp\/skills is missing/.test(error),
+    ),
+  );
 });
