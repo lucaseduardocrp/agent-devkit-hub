@@ -56,7 +56,10 @@ switch (command) {
   case 'validate': {
     const hub = loadHub(root, { adk });
     if (hub.errors.length) report(hub.errors);
-    else console.log(`ok: ${hub.skills.length} skills and ${hub.plugins.length} plugins are valid`);
+    else
+      console.log(
+        `ok: ${hub.skills.length} skills, ${hub.agents.length} agents and ${hub.plugins.length} plugins are valid`,
+      );
     break;
   }
   case 'build': {
@@ -79,7 +82,7 @@ switch (command) {
     }
     writeFileSync(out, `${JSON.stringify(index, null, 2)}\n`);
     console.log(
-      `wrote ${out}: ${index.skills.length} skills, ${index.plugins.length} plugins at ${index.commit.slice(0, 12)}`,
+      `wrote ${out}: ${index.skills.length} skills, ${index.agents.length} agents, ${index.plugins.length} plugins at ${index.commit.slice(0, 12)}`,
     );
     break;
   }

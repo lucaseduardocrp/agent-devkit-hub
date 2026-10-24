@@ -20,5 +20,11 @@
     { "id": "agents", "icon": "ti-robot", "label": { "en-US": "Agents", "pt-BR": "Agentes" } },
     { "id": "devops", "icon": "ti-git-merge", "label": { "en-US": "DevOps", "pt-BR": "DevOps" } },
     { "id": "general", "icon": "ti-puzzle", "label": { "en-US": "General", "pt-BR": "Geral" } }
+  ],
+  "agents": [
+    { "id": "qa", "icon": "ti-checklist", "label": { "en-US": "QA / Testing", "pt-BR": "QA / Testes" } },
+    { "id": "documentation", "icon": "ti-file-text", "label": { "en-US": "Documentation", "pt-BR": "Documentação" } },
+    { "id": "refactor", "icon": "ti-code", "label": { "en-US": "Refactoring", "pt-BR": "Refatoração" } },
+    { "id": "custom", "icon": "ti-robot", "label": { "en-US": "Custom", "pt-BR": "Personalizado" } }
   ]
 }

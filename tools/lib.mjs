@@ -36,6 +36,8 @@ export const TOOLSETS = [
   'design',
   'e2e',
   'releasenotes',
+  'integrationtests',
+  'loadtests',
   'audit',
 ];
 
@@ -266,6 +268,105 @@ export function validateSkill(directory, { builtIn = false, categories = [], len
       version: builtIn ? '' : string('version'),
       license: builtIn ? 'AGPL-3.0-only' : string('license'),
       tier: builtIn ? 'built-in' : string('tier') || 'community',
+      files: tree.files,
+    },
+  };
+}
+
+const AGENT_FIELDS = new Set([
+  'name',
+  'description',
+  'role',
+  'temperature',
+  'author',
+  'version',
+  'license',
+  'tier',
+  'tags',
+  'toolsets',
+]);
+/** ADK agent roles (apps/Backend agent-entity.ts), written in lowercase in AGENT.md. */
+export const AGENT_ROLES = ['qa', 'documentation', 'refactor', 'custom'];
+export const AGENT_TIERS = ['official', 'community'];
+
+/**
+ * Validates one agent folder: `agents/<name>/AGENT.md`, the persona and rules ADK installs as a
+ * workspace agent (Agents page, `devkit agents install`, agents_hub_install). The folder holds
+ * nothing else: the instructions are the whole agent.
+ */
+export function validateAgent(directory, { categories = AGENT_ROLES } = {}) {
+  const folder = directory.split(/[\\/]/).filter(Boolean).at(-1);
+  const errors = [];
+  const agentFile = join(directory, 'AGENT.md');
+  if (!NAME_PATTERN.test(folder) || folder.length > 64) {
+    errors.push(`folder name "${folder}" must be lowercase words joined by hyphens (max 64 characters)`);
+  }
+  if (!existsSync(agentFile)) return { agent: null, errors: [...errors, 'AGENT.md is missing'] };
+
+  const { fields, body, errors: parseErrors } = parseFrontmatter(readFileSync(agentFile, 'utf8'));
+  errors.push(...parseErrors.map((error) => error.replace('SKILL.md', 'AGENT.md')));
+  if (!fields) return { agent: null, errors };
+
+  const string = (key) => (typeof fields[key] === 'string' ? fields[key].trim() : '');
+  const list = (key) => (Array.isArray(fields[key]) ? fields[key] : fields[key] === undefined ? [] : null);
+
+  for (const key of Object.keys(fields)) {
+    if (!AGENT_FIELDS.has(key)) errors.push(`unknown front matter field "${key}"`);
+  }
+  if (string('name') !== folder) errors.push(`name must match the folder name "${folder}"`);
+  const description = string('description');
+  if (description.length < 20 || description.length > 500) {
+    errors.push('description must say what the agent does in 20 to 500 characters');
+  }
+  if (body.trim().length < 200)
+    errors.push('the body must hold the agent instructions (at least 200 characters)');
+  const role = string('role');
+  if (!AGENT_ROLES.includes(role) || !categories.includes(role)) {
+    errors.push(`role must be one of: ${AGENT_ROLES.join(', ')}`);
+  }
+  let temperature;
+  if (fields['temperature'] !== undefined) {
+    temperature = Number(string('temperature'));
+    if (!string('temperature') || !Number.isFinite(temperature) || temperature < 0 || temperature > 2) {
+      errors.push('temperature must be a number between 0 and 2');
+    }
+  }
+  if (!string('author')) errors.push('author is required');
+  if (!SEMVER_PATTERN.test(string('version'))) errors.push('version must be SemVer, e.g. 1.0.0');
+  if (!LICENSE_PATTERN.test(string('license'))) errors.push('license must be an SPDX identifier, e.g. MIT');
+  if (fields['tier'] !== undefined && !AGENT_TIERS.includes(string('tier'))) {
+    errors.push(`tier must be one of: ${AGENT_TIERS.join(', ')}`);
+  }
+  const tags = list('tags');
+  if (tags === null || tags.length > 8 || tags.some((tag) => !TAG_PATTERN.test(tag))) {
+    errors.push('tags must be a list of up to 8 lowercase words, e.g. [qa, bdd]');
+  }
+  const toolsets = list('toolsets');
+  if (toolsets === null || toolsets.some((toolset) => !TOOLSETS.includes(toolset))) {
+    errors.push(`toolsets must be a list of ADK toolsets: ${TOOLSETS.join(', ')}`);
+  }
+
+  const tree = readTree(directory);
+  errors.push(...tree.errors);
+  const extra = tree.files.filter((file) => file.path !== 'AGENT.md');
+  if (extra.length)
+    errors.push(`an agent folder holds only AGENT.md (found ${extra.map((file) => file.path).join(', ')})`);
+
+  return {
+    errors,
+    agent: {
+      name: folder,
+      description,
+      overview: overviewOf(body),
+      category: role || 'custom',
+      role: (role || 'custom').toUpperCase(),
+      ...(temperature !== undefined && Number.isFinite(temperature) ? { temperature } : {}),
+      tags: tags ?? [],
+      toolsets: toolsets ?? [],
+      author: string('author'),
+      version: string('version'),
+      license: string('license'),
+      tier: string('tier') || 'community',
       files: tree.files,
     },
   };
@@ -567,6 +668,17 @@ export function loadHub(root, { adk } = {}) {
       errors.push(`${skill.path}: "${skill.name}" was removed from the hub`);
   }
 
+  const agentCategories = (categories.agents ?? []).map((category) => category.id);
+  const agents = [];
+  for (const folder of subfolders(join(root, 'agents'))) {
+    const result = validateAgent(join(root, 'agents', folder), { categories: agentCategories });
+    errors.push(...result.errors.map((error) => `agents/${folder}: ${error}`));
+    if (!result.agent) continue;
+    agents.push({ ...result.agent, path: `agents/${folder}` });
+    if (removed.some((item) => item.name === folder))
+      errors.push(`agents/${folder}: "${folder}" was removed from the hub`);
+  }
+
   const plugins = [];
   const pluginsDir = join(root, 'plugins');
   const pluginFiles = existsSync(pluginsDir)
@@ -590,7 +702,7 @@ export function loadHub(root, { adk } = {}) {
     errors.push(...entryErrors.map((error) => `plugins/${file}: ${error}`));
     if (!entryErrors.length) plugins.push(normalizePlugin(entry));
   }
-  return { skills, plugins, removed, categories, errors };
+  return { skills, agents, plugins, removed, categories, errors };
 }
 
 function normalizePlugin(entry) {
@@ -658,6 +770,7 @@ export function buildIndex(root, { commit, repository = DEFAULT_REPOSITORY, adk 
     generatedAt,
     categories: hub.categories,
     skills: skills.sort(byTier),
+    agents: hub.agents.sort(byTier),
     plugins: hub.plugins.sort(byTier),
     removed: hub.removed,
   };

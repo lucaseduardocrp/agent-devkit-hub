@@ -2,3 +2,4 @@
 # Skills are downloaded raw from GitHub and checked against hashes in index.json: keep the
 # working tree byte-identical to the repository on every platform.
 skills/** text eol=lf
+agents/** text eol=lf

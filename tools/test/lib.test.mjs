@@ -12,6 +12,7 @@ import {
   loadHub,
   overviewOf,
   parseFrontmatter,
+  validateAgent,
   validatePluginEntry,
   validateSkill,
   verifyPluginSource,
@@ -240,6 +241,54 @@ test('the repository hub is valid and builds a sorted index', () => {
   assert.ok(index.skills.every((skill) => skill.path.startsWith('skills/') && !('commit' in skill)));
   const names = index.skills.map((skill) => skill.name);
   assert.equal(new Set(names).size, names.length);
+  assert.ok(index.agents.length > 0);
+  assert.ok(
+    index.agents.every((agent) => agent.path.startsWith('agents/') && agent.files[0].path === 'AGENT.md'),
+  );
+});
+
+const agentFrontmatter = (overrides = '') =>
+  `---\nname: bug-hunter\ndescription: Finds the edge cases a change forgot.\nrole: qa\ntemperature: 0.3\nauthor: Ana\nversion: 1.0.0\nlicense: MIT\ntags: [qa]\ntoolsets: [testplans]\n${overrides}---${body}`;
+
+function agentDir(content, extra = {}) {
+  const dir = join(mkdtempSync(join(tmpdir(), 'hub-agent-')), 'bug-hunter');
+  write(join(dir, 'AGENT.md'), content);
+  for (const [path, text] of Object.entries(extra)) write(join(dir, path), text);
+  return dir;
+}
+
+test('a complete agent is valid, hashed and carries its ADK role and temperature', () => {
+  const { agent, errors } = validateAgent(agentDir(agentFrontmatter()));
+  assert.deepEqual(errors, []);
+  assert.equal(agent.role, 'QA');
+  assert.equal(agent.category, 'qa');
+  assert.equal(agent.temperature, 0.3);
+  assert.equal(agent.tier, 'community');
+  assert.deepEqual(
+    agent.files.map((file) => file.path),
+    ['AGENT.md'],
+  );
+  assert.match(agent.files[0].sha256, /^[0-9a-f]{64}$/);
+});
+
+test('agents need a known role, a valid temperature and nothing but AGENT.md', () => {
+  const bad = validateAgent(
+    agentDir(
+      agentFrontmatter().replace('role: qa', 'role: tester').replace('temperature: 0.3', 'temperature: 3'),
+      {
+        'notes.md': 'extra',
+      },
+    ),
+  );
+  assert.ok(bad.errors.some((error) => error.startsWith('role must be one of')));
+  assert.ok(bad.errors.some((error) => error.startsWith('temperature must be')));
+  assert.ok(bad.errors.some((error) => error.startsWith('an agent folder holds only AGENT.md')));
+  const unknown = validateAgent(agentDir(agentFrontmatter('model: gpt\n')));
+  assert.ok(unknown.errors.includes('unknown front matter field "model"'));
+  assert.ok(
+    validateAgent(agentDir(agentFrontmatter().replace('temperature: 0.3\n', ''))).agent.temperature ===
+      undefined,
+  );
 });
 
 test('built-in skills come from an ADK checkout, pinned to their own repository and commit', () => {
