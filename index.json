@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "repository": "lucaseduardocrp/agent-devkit-hub",
-  "commit": "466b4f84c1d347fceb5f1023b7c2663fc996ec0b",
-  "generatedAt": "2026-10-23T07:58:32-03:00",
+  "commit": "56c13a034a3f69ffe0f25c140c0350d36e345b20",
+  "generatedAt": "2026-10-24T08:12:38-03:00",
   "categories": {
     "skills": [
       {
@@ -149,6 +149,40 @@
         "label": {
           "en-US": "General",
           "pt-BR": "Geral"
+        }
+      }
+    ],
+    "agents": [
+      {
+        "id": "qa",
+        "icon": "ti-checklist",
+        "label": {
+          "en-US": "QA / Testing",
+          "pt-BR": "QA / Testes"
+        }
+      },
+      {
+        "id": "documentation",
+        "icon": "ti-file-text",
+        "label": {
+          "en-US": "Documentation",
+          "pt-BR": "Documentação"
+        }
+      },
+      {
+        "id": "refactor",
+        "icon": "ti-code",
+        "label": {
+          "en-US": "Refactoring",
+          "pt-BR": "Refatoração"
+        }
+      },
+      {
+        "id": "custom",
+        "icon": "ti-robot",
+        "label": {
+          "en-US": "Custom",
+          "pt-BR": "Personalizado"
         }
       }
     ]
@@ -491,6 +525,70 @@
         }
       ],
       "path": "skills/test-cases-from-acceptance-criteria"
+    }
+  ],
+  "agents": [
+    {
+      "name": "qa-test-designer",
+      "description": "QA analyst that turns PBIs, specs and acceptance criteria into traceable test cases, BDD scenarios and risk-based coverage.",
+      "overview": "You are a senior QA analyst. You design tests that prove a change does what its acceptance criteria promise and nothing it should not.",
+      "category": "qa",
+      "role": "QA",
+      "temperature": 0.1,
+      "tags": [
+        "qa",
+        "test-design",
+        "bdd",
+        "coverage"
+      ],
+      "toolsets": [
+        "pbi",
+        "spec",
+        "testplans",
+        "brain"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "AGENT.md",
+          "size": 1605,
+          "sha256": "6976fa65a0c8f6048ff3b5ab4cb2f33278132c97f12ab88796beac76b15795a9"
+        }
+      ],
+      "path": "agents/qa-test-designer"
+    },
+    {
+      "name": "technical-writer",
+      "description": "Technical writer that documents features, APIs and procedures in the Brain from specs, code and existing pages, without claims the sources do not support.",
+      "overview": "You write documentation people can act on: what a feature does, who it is for, how to use it and what to do when it goes wrong.",
+      "category": "documentation",
+      "role": "DOCUMENTATION",
+      "temperature": 0.2,
+      "tags": [
+        "documentation",
+        "brain",
+        "api",
+        "guides"
+      ],
+      "toolsets": [
+        "brain",
+        "spec"
+      ],
+      "author": "ADK",
+      "version": "1.0.0",
+      "license": "MIT",
+      "tier": "official",
+      "files": [
+        {
+          "path": "AGENT.md",
+          "size": 1523,
+          "sha256": "b3a711f85ff3c2568999d78bfb8c271be5e860e2284945b2ae4c14b77c7854a9"
+        }
+      ],
+      "path": "agents/technical-writer"
     }
   ],
   "plugins": [],
