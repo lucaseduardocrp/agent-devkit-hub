@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "repository": "lucaseduardocrp/agent-devkit-hub",
-  "commit": "56c13a034a3f69ffe0f25c140c0350d36e345b20",
-  "generatedAt": "2026-10-24T08:12:38-03:00",
+  "commit": "b2b0ff6a4627c4e918cbaffbc33b3b9eb5b92a1e",
+  "generatedAt": "2026-10-24T11:12:51Z",
   "categories": {
     "skills": [
       {
@@ -208,7 +208,29 @@
       ],
       "path": "apps/Mcp/skills/adk-agents",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+    },
+    {
+      "name": "adk-api-tests",
+      "description": "Use when the user wants API integration tests (requests with assertions, a collection for Postman, Insomnia or Bruno) or a load, stress, spike, soak or performance test of an API with ADK. Covers generating them from test plans, Brain pages, specs and PBIs, importing collections, running them and reading the results.",
+      "overview": "Integration tests are collections of HTTP requests with assertions and captures; overload tests are load scenarios that replay requests of a collection under a load profile. Both run on the ADK workers (target: \"remote\", public URLs) or on the user's computer through devkit ru…",
+      "category": "adk",
+      "tags": [],
+      "toolsets": [],
+      "author": "ADK",
+      "version": "0.1.0",
+      "license": "AGPL-3.0-only",
+      "tier": "built-in",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "size": 3944,
+          "sha256": "fbe62f8b112f00816a174202fa5d12e3d0fdc0c268ca3f51050eb72e2bee480b"
+        }
+      ],
+      "path": "apps/Mcp/skills/adk-api-tests",
+      "repository": "lucaseduardocrp/agent-devkit",
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-brain",
@@ -230,7 +252,7 @@
       ],
       "path": "apps/Mcp/skills/adk-brain",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-design",
@@ -252,7 +274,7 @@
       ],
       "path": "apps/Mcp/skills/adk-design",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-e2e",
@@ -274,7 +296,7 @@
       ],
       "path": "apps/Mcp/skills/adk-e2e",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-getting-started",
@@ -296,7 +318,7 @@
       ],
       "path": "apps/Mcp/skills/adk-getting-started",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-release-notes",
@@ -318,7 +340,7 @@
       ],
       "path": "apps/Mcp/skills/adk-release-notes",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-specs",
@@ -340,7 +362,7 @@
       ],
       "path": "apps/Mcp/skills/adk-specs",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-test-plans",
@@ -362,7 +384,7 @@
       ],
       "path": "apps/Mcp/skills/adk-test-plans",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "adk-workspace-admin",
@@ -384,7 +406,7 @@
       ],
       "path": "apps/Mcp/skills/adk-workspace-admin",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "f86b74364c8d1210d29fb12213ed587ce6744658"
+      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
     },
     {
       "name": "api-contract-checks",
