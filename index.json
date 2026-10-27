@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "repository": "lucaseduardocrp/agent-devkit-hub",
-  "commit": "b2b0ff6a4627c4e918cbaffbc33b3b9eb5b92a1e",
-  "generatedAt": "2026-10-24T11:12:51Z",
+  "commit": "0e8212c2930392a21020592c2abf31874c2440af",
+  "generatedAt": "2026-10-25T09:47:47Z",
   "categories": {
     "skills": [
       {
@@ -208,7 +208,7 @@
       ],
       "path": "apps/Mcp/skills/adk-agents",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-api-tests",
@@ -230,7 +230,7 @@
       ],
       "path": "apps/Mcp/skills/adk-api-tests",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-brain",
@@ -252,7 +252,7 @@
       ],
       "path": "apps/Mcp/skills/adk-brain",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-design",
@@ -274,7 +274,7 @@
       ],
       "path": "apps/Mcp/skills/adk-design",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-e2e",
@@ -296,7 +296,7 @@
       ],
       "path": "apps/Mcp/skills/adk-e2e",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-getting-started",
@@ -318,7 +318,7 @@
       ],
       "path": "apps/Mcp/skills/adk-getting-started",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-release-notes",
@@ -340,7 +340,7 @@
       ],
       "path": "apps/Mcp/skills/adk-release-notes",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-specs",
@@ -362,7 +362,7 @@
       ],
       "path": "apps/Mcp/skills/adk-specs",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-test-plans",
@@ -384,7 +384,7 @@
       ],
       "path": "apps/Mcp/skills/adk-test-plans",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "adk-workspace-admin",
@@ -406,7 +406,7 @@
       ],
       "path": "apps/Mcp/skills/adk-workspace-admin",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "576ecd598109717f8bb5711ac48ef1d36417f57d"
+      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
     },
     {
       "name": "api-contract-checks",
