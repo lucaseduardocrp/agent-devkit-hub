@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "repository": "lucaseduardocrp/agent-devkit-hub",
-  "commit": "0e8212c2930392a21020592c2abf31874c2440af",
-  "generatedAt": "2026-10-25T09:47:47Z",
+  "commit": "754fb54a28d0ce2620cf7f1cfabc328376dae24b",
+  "generatedAt": "2026-10-27T10:31:22Z",
   "categories": {
     "skills": [
       {
@@ -208,7 +208,7 @@
       ],
       "path": "apps/Mcp/skills/adk-agents",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-api-tests",
@@ -224,13 +224,13 @@
       "files": [
         {
           "path": "SKILL.md",
-          "size": 3944,
-          "sha256": "fbe62f8b112f00816a174202fa5d12e3d0fdc0c268ca3f51050eb72e2bee480b"
+          "size": 5491,
+          "sha256": "a89315bd3d3eae13d36b1831bf982831c682465794d57409c3ae27c679861cb8"
         }
       ],
       "path": "apps/Mcp/skills/adk-api-tests",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-brain",
@@ -252,7 +252,7 @@
       ],
       "path": "apps/Mcp/skills/adk-brain",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-design",
@@ -274,12 +274,12 @@
       ],
       "path": "apps/Mcp/skills/adk-design",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-e2e",
       "description": "Use when the user wants ADK to write, run, rerun, fix or manage automated end-to-end (Playwright) tests of a web application or API, check why an E2E test failed, edit an E2E script, or share the recorded test video.",
-      "overview": "ADK commits Playwright scripts to a GitHub or Azure DevOps repository, runs each test in a browser on the ADK worker and records a video. Execution is asynchronous: tools return immediately and the run progresses on its own.",
+      "overview": "ADK commits Playwright scripts to a GitHub or Azure DevOps repository, runs each test in a browser on the ADK worker and records a video. Execution is asynchronous: tools return immediately and the run progresses on its own. Each test can also carry a Before Run that builds it…",
       "category": "adk",
       "tags": [],
       "toolsets": [],
@@ -290,13 +290,13 @@
       "files": [
         {
           "path": "SKILL.md",
-          "size": 10464,
-          "sha256": "07993b3120798585282cf28449d03ca9cc17a7d646f53822410c3396341f661c"
+          "size": 13633,
+          "sha256": "9a7b3bec90a92af744f75e4894c75ea34da917de6d55c9ea32e17456601544b5"
         }
       ],
       "path": "apps/Mcp/skills/adk-e2e",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-getting-started",
@@ -318,7 +318,7 @@
       ],
       "path": "apps/Mcp/skills/adk-getting-started",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-release-notes",
@@ -340,7 +340,7 @@
       ],
       "path": "apps/Mcp/skills/adk-release-notes",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-specs",
@@ -362,7 +362,7 @@
       ],
       "path": "apps/Mcp/skills/adk-specs",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-test-plans",
@@ -384,7 +384,7 @@
       ],
       "path": "apps/Mcp/skills/adk-test-plans",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "adk-workspace-admin",
@@ -406,7 +406,7 @@
       ],
       "path": "apps/Mcp/skills/adk-workspace-admin",
       "repository": "lucaseduardocrp/agent-devkit",
-      "commit": "9988689398ef68f9d650b7d6046cd75254b6ab7a"
+      "commit": "3b4634e91e8a5d755ab7bcfc3700eae8197e116f"
     },
     {
       "name": "api-contract-checks",
